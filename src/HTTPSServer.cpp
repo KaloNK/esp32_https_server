@@ -21,12 +21,12 @@ HTTPSServer::~HTTPSServer() {
 uint8_t HTTPSServer::setupSocket() {
   if (!isRunning()) {
     if (!setupSSLCTX()) {
-      Serial.println("setupSSLCTX failed");
+      HTTPS_LOGE("setupSSLCTX failed");
       return 0;
     }
 
     if (!setupCert()) {
-      Serial.println("setupCert failed");
+      HTTPS_LOGE("setupCert failed");
       SSL_CTX_free(_sslctx);
       _sslctx = NULL;
       return 0;
@@ -35,7 +35,7 @@ uint8_t HTTPSServer::setupSocket() {
     if (HTTPServer::setupSocket()) {
       return 1;
     } else {
-      Serial.println("setupSockets failed");
+      HTTPS_LOGE("setupSockets failed");
       SSL_CTX_free(_sslctx);
       _sslctx = NULL;
       return 0;
